@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package proto_graph;
+
+message EdgeWeight {
+	string bus_name = 1;
+	string from = 2;
+	string to = 3;
+	double total_time = 4;
+	uint32 span_count = 5;
+}
+
+message Edge {
+	uint32 from = 1;
+	uint32 to = 2;
+	EdgeWeight weight = 3;
+}
+
+message IncidenceList {
+	repeated uint32 edge_id = 1;
+}
+
+message Graph {
+	repeated Edge edges = 1;
+	repeated IncidenceList incidence_lists = 2;
+}
+
+message RouteInternalData {
+	double total_time = 1;
+	oneof optional_prev_edge {
+		uint32 prev_edge = 2;
+	}
+}
+
+message OptionalRouteInternalData {
+	oneof optional_route_internal_data {
+		RouteInternalData route_internal_data = 1;
+	}
+}
+
+message RoutesInternalData {
+	repeated OptionalRouteInternalData routes_internal_data = 1;
+}
+
+message Router {
+	repeated RoutesInternalData routes_internal_data = 1;
+}
